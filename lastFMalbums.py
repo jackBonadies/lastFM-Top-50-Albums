@@ -10,5 +10,8 @@ imgUrls = []
 for album in albums:
   if '/64s' in album['src']:
     imgUrls.append(album['src'].replace('/64s',''))
+subprocess.call("rm -r top50images",shell=True)#create dir
+subprocess.call("mkdir top50images",shell=True)#create dir
 for url in imgUrls:
-  print(url)
+  subprocess.call("wget "+ url +" -P ./top50images", shell=True) #download image
+subprocess.call("ls top50images/ > listOfFiles.txt",shell=True)
