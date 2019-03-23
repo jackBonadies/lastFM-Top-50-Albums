@@ -1,0 +1,53 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+<script>
+$(document).ready(function() {
+function gettingData(){
+  var txt;
+  var httpGetter = new XMLHttpRequest();
+  httpGetter.open("GET","file:///Users/jackbonadies/lastFMtop50/listOfFiles.txt",false);
+  httpGetter.onreadystatechange = function() {
+    if(httpGetter.readyState === 4){
+      if(httpGetter.status === 200 | httpGetter.status === 0){
+        var rawText = httpGetter.responseText;
+        txt = rawText;
+        return txt;
+      }
+    }
+  }
+  httpGetter.send(null);
+  return txt; //return has to be here as well!!!
+}
+function processData(data){
+  var allTextLines = data.split(/\r\n|\n/);
+  for (var i=0;i<allTextLines.length;i++){
+    console.log(allTextLines[i]);
+  }
+  return allTextLines;
+};
+function galleryGenerator(txt){
+  for (var i=0;i<txt.length;i++){
+    $("#top50").append("<img src=./top50images/" + txt[i] + ">");
+  }
+};
+txt = gettingData();
+txt = processData(txt);
+galleryGenerator(txt);
+});
+</script>
+<style>
+#top50{
+  position: relative;
+  float: left;
+}
+img {
+  height: 100px;
+  width: 100px;
+}
+</style>
+<div id="top50">
+</div>
+</body>
