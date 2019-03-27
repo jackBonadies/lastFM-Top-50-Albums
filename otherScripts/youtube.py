@@ -37,5 +37,13 @@ def getListOfPaths():
   return allPaths
 def getTitleArtist(path):
   titleArtist = subprocess.check_output(["ffprobe",path], stdin=None, stderr=subprocess.STDOUT, shell=False, universal_newlines=True)
-  return titleArtist
+  lines = titleArtist.split('\n')
+  title = ""
+  artist = ""
+  for line in lines:
+    if(line.find("  artist  ")!=-1):
+      artist = line[line.find(": ")+2:len(line)]
+    if(line.find("  title  ")!=-1):
+      title = line[line.find(": ")+2:len(line)]
+  return artist, title
 #print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
