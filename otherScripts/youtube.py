@@ -4,6 +4,7 @@
 #3. upload a playlist of songs for each album that is not on youtube
 import requests
 from bs4 import BeautifulSoup
+import subprocess
 def existsOnYoutube(artistSong):
   artistQuery = artistSong.replace(' ','+')
   src = requests.get("https://www.youtube.com/results?search_query=" + artistQuery).text
@@ -30,6 +31,11 @@ def existsOnYoutube(artistSong):
     return 1;
   else:
     return 0;
-  
-print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
 
+def getListOfPaths():
+  allPaths = subprocess.check_output(["find",".","-type","f"], stdin=None, stderr=None, shell=False, universal_newlines=True)
+  return allPaths
+def getTitleArtist(path):
+  titleArtist = subprocess.check_output(["ffprobe",path], stdin=None, stderr=subprocess.STDOUT, shell=False, universal_newlines=True)
+  return titleArtist
+#print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
