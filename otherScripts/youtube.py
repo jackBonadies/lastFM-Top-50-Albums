@@ -45,5 +45,15 @@ def getTitleArtist(path):
       artist = line[line.find(": ")+2:len(line)]
     if(line.find("  title  ")!=-1):
       title = line[line.find(": ")+2:len(line)]
-  return artist, title
+  return artist + " " + title
+
+def driver():
+  allPaths = getListOfPaths()
+  allPaths = allPaths.split('\n')[0:-1]
+  for path in allPaths:
+    terms = getTitleArtist(path)
+    if(existsOnYoutube(terms)==1):
+      print(terms + " doesnt exist")
+    else:
+      print(terms + " exists")
 #print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
