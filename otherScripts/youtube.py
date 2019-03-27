@@ -11,20 +11,35 @@ def existsOnYoutube(artistSong):
   src = BeautifulSoup(src, 'lxml')
   vidtitles = src.find_all('h3')
   legitVids = []
+  legitSpans = [] #indices will correspond to legit Vids
   for vt in vidtitles:
     if(vt.find('a')==None):
       continue
     if (vt.find('a').get('data-sessionlink') != None):
       legitVids.append(vt.find('a'))
-    if(len(legitVids) > 3):
+      legitSpans.append(vt.find('span'))
+    if(len(legitVids) > 3): 
       break
   #4 contestants.  if any match then its on youtube.
   searchTerms = artistSong.split()
   invalids = set()
+  spanMatches = []
+  aMatches = []
   for lv in legitVids:
+    thisVid = 1 #until proven otherwise
     for term in searchTerms:
       if(lv['title'].upper().find(term.upper()) == -1):
         invalids.add(lv)
+        thisVid = 0
+    aMatches.append(thisVid)
+  for ls in legitSpans:
+    thisVid = 1
+    for term in searchTerms:
+      if(ls['aria-label'].upper().find(term.upper()) == -1):
+        thisVid = 0
+    spanMatches.append(thisVid)
+  #if there is a single 1 (a 1 means a video that matches everythign then its up.  a 1 can be combined between description and title.  i.e. title OR description
+  #but that still doesnt work because its for every single search term.
   i = len(invalids)
   v = len(legitVids)
   if(i == v):  #it exists
@@ -56,4 +71,4 @@ def driver():
       print(terms + " doesnt exist")
     else:
       print(terms + " exists")
-#print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
+print(existsOnYoutube("Brian eno planet water")) #if u get a 1 then it doesnt exist
