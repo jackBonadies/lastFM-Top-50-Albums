@@ -31,23 +31,38 @@ function processData(data){
 function galleryGenerator(txt){
   for (var i=0;i<txt.length;i++){
     $("#top50").append("<img src=./top50images/" + txt[i] + ">");
+    if(i%7==6){$("#top50").append("<br>");};
+    if(i==48){break;};
   }
 };
+$("#abt").on("click",function(){
+  $("#abt").append("<p> This is how i did it</p>");
+});
 txt = gettingData();
 txt = processData(txt);
 galleryGenerator(txt);
 });
 </script>
 <style>
+body{
+  background: #FFDAB9;
+}
 #top50{
   position: relative;
   float: left;
+  left: 15vw;
 }
 img {
-  height: 100px;
-  width: 100px;
+  height: 10vw;
+  width: 10vw;
+}
+.clear{
+  clear:both;
 }
 </style>
 <div id="top50">
+</div>
+<div id="abt" class="clear">
+  About
 </div>
 </body>
